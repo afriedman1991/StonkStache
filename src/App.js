@@ -67,6 +67,22 @@ const chartConfigs = {
 };
 
 class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      data: []
+    }
+  }
+
+  componentDidMount() {
+    fetch('/data')
+    .then(res => res.json())
+    .then(data => {
+      console.log(data);
+      this.setState({data});
+    });
+  }
+
   render() {
     return (<><h1>DEMO GRAPH</h1><ReactFC {...chartConfigs} /></>);
   }
