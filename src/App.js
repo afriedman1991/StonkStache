@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { WidthProvider, Responsive } from "react-grid-layout";
+// import ReactDOM from "react-dom";
 import ReactFC from "react-fusioncharts";
 import FusionCharts from "fusioncharts";
 import Column2D from "fusioncharts/fusioncharts.charts";
@@ -74,15 +75,36 @@ const ReactGridLayout = WidthProvider(Responsive);
 
 class App extends Component {
   
-  state = { 
-    layout : [
+  constructor() {
+    super();
+    this.state = {
+      data: [],
+      layout : [
       {i: '1', x: 0, y: 0, w: 3, h: 2, minH: 2, maxH: 2},         // *** -- minH & maxH doesnt affect the grid items
       {i: '2', x: 1, y: 0, w: 4, h: 2, minH: 2, maxH: 2},
       {i: '3', x: 0, y: 1, w: 3, h: 2, minH: 2, maxH: 2},
       {i: '4', x: 1, y: 1, w: 1, h: 2, minH: 2, maxH: 2}
     ],
     resizeplotly: true,
-  };
+    }
+
+    this.getExchangeRates = this.getExchangeRates.bind();
+    this.onLayoutChange = this.onLayoutChange.bind();
+    this.onResize = this.onResize.bind();
+  }
+
+  // api call for USD to JPY
+  getExchangeRates = () => {
+    // tell server we want data from the "/data" endpoint
+    fetch('/data')
+    // after we get data, convert data to json format
+    .then(res => res.json())
+    // take json-ified data, and set it as the "data" state value
+    .then(data => {
+      console.log(data);
+      this.setState({data: JSON.stringify(data)});
+    });
+  }
 
   onLayoutChange = (layout) => {
     this.setState({layout});
@@ -134,7 +156,12 @@ class App extends Component {
               <ReactFC {...chartConfigs} className = "graph"/>
             </div>
         </ReactGridLayout>
-        
+        <h2>Get Exchange Rates from</h2>
+        <button onClick={this.getExchangeRates}>USD to JPY</button>
+        <div>
+          {/*display value "data" from the state*/}
+          {this.state.data}
+        </div>
       </div>
     );
   }
