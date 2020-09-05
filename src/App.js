@@ -135,7 +135,12 @@ class App extends Component {
               <div className='MyDragHandleClassName'> 
                 Drag from Here - <span className="text">1</span>
               </div>
-              <div style={{marginTop: '80px'}}>Grid - 1</div>
+              <h2>Get Exchange Rates from</h2>
+              <button onClick={this.getExchangeRates}>USD to JPY</button>
+              <div>
+                {/*display value "data" from the state*/}
+                {this.state.data}
+              </div>
             </div>
             <div className="item" key={2}>
               <div className='MyDragHandleClassName'> 
@@ -156,12 +161,6 @@ class App extends Component {
               <ReactFC {...chartConfigs} className = "graph"/>
             </div>
         </ReactGridLayout>
-        <h2>Get Exchange Rates from</h2>
-        <button onClick={this.getExchangeRates}>USD to JPY</button>
-        <div>
-          {/*display value "data" from the state*/}
-          {this.state.data}
-        </div>
       </div>
     );
   }

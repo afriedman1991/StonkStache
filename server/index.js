@@ -5,7 +5,6 @@ const getExchangeRates = require('./routes/getExchangeRates.js').getExchangeRate
 // listen to get requests to "/data" from the front end
 app.get('/data', (req, res) => {
   getExchangeRates((rates) => {
-    console.log("RATES:", rates);
     // convert data to json format and send it back to front end  
     res.json(rates);
   })
