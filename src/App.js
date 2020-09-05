@@ -72,19 +72,36 @@ class App extends React.Component {
     this.state = {
       data: []
     }
+
+    this.getExchangeRates = this.getExchangeRates.bind();
   }
 
-  componentDidMount() {
+  // api call for USD to JPY
+  getExchangeRates = () => {
+    // tell server we want data from the "/data" endpoint
     fetch('/data')
+    // after we get data, convert data to json format
     .then(res => res.json())
+    // take json-ified data, and set it as the "data" state value
     .then(data => {
       console.log(data);
-      this.setState({data});
+      this.setState({data: JSON.stringify(data)});
     });
   }
 
   render() {
-    return (<><h1>DEMO GRAPH</h1><ReactFC {...chartConfigs} /></>);
+    return (
+    <div>
+      <h1>DEMO GRAPH</h1>
+      <ReactFC {...chartConfigs} />
+      <br/>
+      <h2>Get Exchange Rates from</h2>
+      <button onClick={this.getExchangeRates}>USD to JPY</button>
+      <div>
+        {/*display value "data" from the state*/}
+        {this.state.data}
+      </div>
+    </div>);
   }
 }
 
